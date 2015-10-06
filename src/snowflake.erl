@@ -8,7 +8,7 @@
 -author('Joseph Abrahamson <me@jspha.com>').
 
 %% Public
--export([new/0, new/1, serialize/1, deserialize/1]).
+-export([new/0, new/1, serialize/1, deserialize/1, to_integer/1]).
 -export_type([uuid/0]).
 
 -behaviour(application).
@@ -86,6 +86,10 @@ serialize(UUID) -> base64:encode(UUID).
 deserialize(binary() | nonempty_string()) -> uuid().
 deserialize(Bin) when is_binary(Bin) -> base64:decode(Bin);
 deserialize(Str) when is_list(Str) -> base64:decode(list_to_binary(Str)).
+
+-spec
+to_integer(uuid()) -> integer().
+to_integer(<<Integer:64>>) -> Integer.
 
 %% -----------
 %% Private API
